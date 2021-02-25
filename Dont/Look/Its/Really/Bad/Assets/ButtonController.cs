@@ -12,7 +12,11 @@ public class ButtonController : MonoBehaviour
     public Image RobotSheet;
     public Texture2D defaultSprite;
     public TMP_Text TextComponent;
-
+    
+    public TextAsset names;
+    public TextAsset items;
+    
+    //colors of the pixels used in the spritesheet
     Color32 c1 = new Color32(200, 198, 169, 255);
     Color32 c2 = new Color32(126, 124, 96, 255);
     Color32 c3 = new Color32(84, 82, 61, 255);
@@ -28,6 +32,10 @@ public class ButtonController : MonoBehaviour
     }
     public void OnGenerateSpritesPressed()
     {
+  	/*
+        prob a better way to do this, but i didnt care enough
+        */
+
       Color randomColor1 = new Color(
 	UnityEngine.Random.value, //Red
 	UnityEngine.Random.value, //Green
@@ -82,6 +90,11 @@ public class ButtonController : MonoBehaviour
 	UnityEngine.Random.value, //Blue
 	1 //Alpha (transparency)
     );
+    
+    /*
+    Also prob a better way to do this, Too bad!
+    */
+    //grabs the position of pixels a certanin color and overwrites them
     var colors = defaultSprite.GetPixels();
     for(int i=0; i<colors.Length; i++)
         if(colors[i]==c1)
@@ -137,11 +150,10 @@ public class ButtonController : MonoBehaviour
     RobotSheet.sprite.texture.SetPixels(colors);
     RobotSheet.sprite.texture.Apply();
     }
-    public TextAsset txt;
-    public TextAsset items;
+ 
     public void GenerateStats()
     {
-        string[] dict = txt.text.Split("\n"[0]);
+        string[] dict = names.text.Split("\n"[0]);
         var nameRandom = UnityEngine.Random.Range(0,466596);
         Name = dict[nameRandom];
 
@@ -193,6 +205,7 @@ public class ButtonController : MonoBehaviour
         TarnisherClipCapacityMultiplier = UnityEngine.Random.Range(0.1f, 3);
         ThrownGunDamage = UnityEngine.Random.Range(0,5.1f);
 
+	//gross, but works.
         loadout = 
     "base: Robot\n"+
     "name short: " + Name +
@@ -261,8 +274,6 @@ public class ButtonController : MonoBehaviour
         Application.Quit();
     }
     private string Name;
-
-    //loadoutString
 
  string loadout;
  string[] StartingItems = new string[] {"downloadPrismatism"};
